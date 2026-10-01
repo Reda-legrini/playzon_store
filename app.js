@@ -4,10 +4,20 @@
 const CATEGORIES = {
   ps5: "PlayStation 5", ps4: "PlayStation 4",
   "manette-ps5": "Manettes PS5", "manette-ps4": "Manettes PS4",
-  "jeu-ps5": "Jeux PS5", "jeu-ps4": "Jeux PS4"
+  "jeu-ps5": "Jeux PS5", "jeu-ps4": "Jeux PS4",
+  vr: "Réalité Virtuelle"
 };
+
 // Icône de secours si un produit n'a pas d'image
-const ICONES = { ps5:"🎮", ps4:"🕹️", "manette-ps5":"🎮", "manette-ps4":"🕹️", "jeu-ps5":"💿", "jeu-ps4":"📀" };
+const ICONES = {
+  ps5:"🎮",
+  ps4:"🕹️",
+  "manette-ps5":"🎮",
+  "manette-ps4":"🕹️",
+  "jeu-ps5":"💿",
+  "jeu-ps4":"📀",
+  vr:"🥽"
+};
 
 // img = nom du fichier dans le dossier images/
 const PRODUITS = [
@@ -16,13 +26,15 @@ const PRODUITS = [
   { id:3, nom:"DualSense Edge",               cat:"manette-ps5", prix:229, img:"dualsense-edge.webp",              desc:"Manette pro personnalisable pour PS5 : boutons, sticks et profils." },
   { id:4, nom:"DualShock 4 Noire",            cat:"manette-ps4", prix:55,  img:"dualshock4-noire.webp",            desc:"La manette officielle PS4, confortable et fiable." },
   { id:5, nom:"Marvel's Spider-Man 2",        cat:"jeu-ps5",     prix:59,  ancien:69, img:"spider-man-2.webp",       desc:"Aventure en monde ouvert avec Peter Parker et Miles Morales." },
-  { id:6, nom:"Gran Turismo 7",               cat:"jeu-ps5",     prix:49,  ancien:69, img:"gran-turismo-7.webp",     desc:"Le simulateur de course de référence sur PlayStation." },
+  { id:6, nom:"Gran Turismo 7",              cat:"jeu-ps5",     prix:49,  ancien:69, img:"gran-turismo-7.webp",     desc:"Le simulateur de course de référence sur PlayStation." },
   { id:7, nom:"God of War Ragnarök",          cat:"jeu-ps4",     prix:39,  img:"god-of-war-ragnarok.webp",         desc:"Kratos et Atreus face à la fin du monde nordique." },
-  { id:8, nom:"The Last of Us Part II",       cat:"jeu-ps4",     prix:29,  img:"last-of-us-2.webp",                desc:"Une histoire intense de survie et de vengeance." }
+  { id:8, nom:"The Last of Us Part II",       cat:"jeu-ps4",     prix:29,  img:"last-of-us-2.webp",                desc:"Une histoire intense de survie et de vengeance." },
+  { id:9, nom:"PlayStation VR2",              cat:"vr",          prix:499, ancien:549, desc:"Casque de réalité virtuelle PlayStation avec affichage immersif et suivi des mouvements." }
 ];
 
 // Affiche l'image du produit (ou l'icône si pas d'image)
 const imageProduit = p => p.img ? `<img src="images/${p.img}" alt="${p.nom}">` : ICONES[p.cat];
+
 
 /* =====================================================
    2. PANIER (stocké dans le navigateur avec localStorage)
@@ -35,6 +47,7 @@ const app = document.getElementById("app");
 function majCompteur() {
   document.getElementById("cart-count").textContent = getPanier().reduce((s, l) => s + l.qte, 0);
 }
+
 function ajouterAuPanier(id, qte = 1) {
   const panier = getPanier();
   const ligne = panier.find(l => l.id === id);
@@ -42,10 +55,29 @@ function ajouterAuPanier(id, qte = 1) {
   savePanier(panier);
   alert("Produit ajouté au panier !");
 }
-function changerQte(id, v) { const p = getPanier(); p.find(l => l.id === id).qte = Math.max(1, Number(v)); savePanier(p); pagePanier(); }
-function supprimer(id) { savePanier(getPanier().filter(l => l.id !== id)); pagePanier(); }
-function viderPanier() { savePanier([]); pagePanier(); }
-function commander() { savePanier([]); app.innerHTML = '<main class="container mt-5"><div class="alert alert-success">Merci ! Votre commande (simulation) a bien été enregistrée.</div></main>'; }
+
+function changerQte(id, v) {
+  const p = getPanier();
+  p.find(l => l.id === id).qte = Math.max(1, Number(v));
+  savePanier(p);
+  pagePanier();
+}
+
+function supprimer(id) {
+  savePanier(getPanier().filter(l => l.id !== id));
+  pagePanier();
+}
+
+function viderPanier() {
+  savePanier([]);
+  pagePanier();
+}
+
+function commander() {
+  savePanier([]);
+  app.innerHTML = '<main class="container mt-5"><div class="alert alert-success">Merci ! Votre commande (simulation) a bien été enregistrée.</div></main>';
+}
+
 
 /* =====================================================
    3. COMPOSANT : carte produit
@@ -69,7 +101,9 @@ function carteProduit(p) {
     </div>
   </div>`;
 }
+
 const titrePage = t => `<div class="page-title"><div class="container"><h1 class="mb-0">${t}</h1></div></div>`;
+
 
 /* =====================================================
    4. PAGES : chaque fonction affiche une page dans #app
@@ -78,6 +112,7 @@ function pageAccueil() {
   const cats = Object.entries(CATEGORIES).map(([cle, nom]) =>
     `<div class="col-6 col-md-3 col-lg"><a class="cat-tile" href="#/produits/${cle}"><span class="icon">${ICONES[cle]}</span>${nom}</a></div>`).join("");
   const promos = PRODUITS.filter(p => p.ancien).slice(0, 4).map(carteProduit).join("");
+
   app.innerHTML = `
   <section class="hero">
     <div class="container row mx-auto align-items-center">
@@ -101,6 +136,7 @@ function pageAccueil() {
   </main>`;
 }
 
+
 function pageProduits(catInitiale = "") {
   app.innerHTML = `${titrePage("Tous les produits")}
   <main class="container">
@@ -114,23 +150,47 @@ function pageProduits(catInitiale = "") {
     </div>
     <div class="row g-4" id="liste"></div>
   </main>`;
-  const selCat = document.getElementById("filtre-cat"), recherche = document.getElementById("recherche"), tri = document.getElementById("tri");
+
+  const selCat = document.getElementById("filtre-cat"),
+        recherche = document.getElementById("recherche"),
+        tri = document.getElementById("tri");
+
   selCat.value = catInitiale;
 
   function afficher() {
-    const liste = PRODUITS.filter(p => (!selCat.value || p.cat === selCat.value) && p.nom.toLowerCase().includes(recherche.value.toLowerCase()));
+    const liste = PRODUITS.filter(p =>
+      (!selCat.value || p.cat === selCat.value) &&
+      p.nom.toLowerCase().includes(recherche.value.toLowerCase())
+    );
+
     if (tri.value === "asc") liste.sort((a, b) => a.prix - b.prix);
     if (tri.value === "desc") liste.sort((a, b) => b.prix - a.prix);
-    document.getElementById("liste").innerHTML = liste.length ? liste.map(carteProduit).join("") : '<p class="text-center">Aucun produit ne correspond à votre recherche.</p>';
+
+    document.getElementById("liste").innerHTML =
+      liste.length
+        ? liste.map(carteProduit).join("")
+        : '<p class="text-center">Aucun produit ne correspond à votre recherche.</p>';
   }
+
   [selCat, recherche, tri].forEach(el => el.addEventListener("input", afficher));
   afficher();
 }
 
+
 function pageProduit(id) {
   const p = PRODUITS.find(x => x.id === id);
-  if (!p) { app.innerHTML = '<main class="container mt-5"><p>Produit introuvable. <a href="#/produits">Retour aux produits</a></p></main>'; return; }
-  const similaires = PRODUITS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4).map(carteProduit).join("");
+
+  if (!p) {
+    app.innerHTML = '<main class="container mt-5"><p>Produit introuvable. <a href="#/produits">Retour aux produits</a></p></main>';
+    return;
+  }
+
+  const similaires = PRODUITS
+    .filter(x => x.cat === p.cat && x.id !== p.id)
+    .slice(0, 4)
+    .map(carteProduit)
+    .join("");
+
   app.innerHTML = `
   <main class="container mt-5">
     <a href="#/produits">&larr; Retour aux produits</a>
@@ -152,15 +212,21 @@ function pageProduit(id) {
   </main>`;
 }
 
+
 function pagePanier() {
   const panier = getPanier();
   let contenu;
+
   if (!panier.length) {
     contenu = '<div class="text-center py-5"><p class="fs-5">Votre panier est vide.</p><a class="btn btn-primary" href="#/produits">Voir les produits</a></div>';
   } else {
     let total = 0;
+
     const lignes = panier.map(l => {
-      const p = PRODUITS.find(x => x.id === l.id); const sous = p.prix * l.qte; total += sous;
+      const p = PRODUITS.find(x => x.id === l.id);
+      const sous = p.prix * l.qte;
+      total += sous;
+
       return `<tr>
         <td><a href="#/produit/${p.id}">${p.nom}</a></td>
         <td>${euro(p.prix)}</td>
@@ -168,17 +234,22 @@ function pagePanier() {
         <td>${euro(sous)}</td>
         <td><button class="btn btn-outline-danger btn-sm" onclick="supprimer(${p.id})">Retirer</button></td></tr>`;
     }).join("");
+
     contenu = `
       <div class="table-responsive"><table class="table align-middle">
-        <thead><tr><th>Produit</th><th>Prix</th><th>Quantité</th><th>Total</th><th></th></tr></thead><tbody>${lignes}</tbody></table></div>
+        <thead><tr><th>Produit</th><th>Prix</th><th>Quantité</th><th>Total</th><th></th></tr></thead>
+        <tbody>${lignes}</tbody>
+      </table></div>
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-3">
         <button class="btn btn-outline-secondary" onclick="viderPanier()">Vider le panier</button>
         <div class="text-end"><div class="fs-4">Total : <strong class="price">${euro(total)}</strong></div>
         <button class="btn btn-primary btn-lg mt-2" onclick="commander()">Passer la commande</button></div>
       </div>`;
   }
+
   app.innerHTML = `${titrePage("Mon panier")}<main class="container">${contenu}</main>`;
 }
+
 
 function pageContact() {
   app.innerHTML = `${titrePage("Contactez-nous")}
@@ -194,22 +265,28 @@ function pageContact() {
       <button class="btn btn-primary">Envoyer le message</button>
     </form>
   </main>`;
+
   const form = document.getElementById("form-contact");
+
   form.addEventListener("submit", e => {
     e.preventDefault();
     form.classList.add("was-validated");
+
     if (form.checkValidity()) {
-      form.reset(); form.classList.remove("was-validated");
+      form.reset();
+      form.classList.remove("was-validated");
       document.getElementById("succes").classList.remove("d-none");
     }
   });
 }
+
 
 /* =====================================================
    5. ROUTEUR : choisit la page selon l'adresse (#/...)
    ===================================================== */
 function router() {
   const [, page = "", param = ""] = location.hash.split("/");   // ex: "#/produit/5" -> page="produit", param="5"
+
   if (page === "produits") pageProduits(param);
   else if (page === "produit") pageProduit(Number(param));
   else if (page === "panier") pagePanier();
@@ -217,9 +294,12 @@ function router() {
   else pageAccueil();
 
   document.querySelectorAll("[data-route]").forEach(a =>
-    a.classList.toggle("active", a.dataset.route === (page || "accueil")));
+    a.classList.toggle("active", a.dataset.route === (page || "accueil"))
+  );
+
   window.scrollTo(0, 0);
 }
+
 window.addEventListener("hashchange", router);
 majCompteur();
 router();
