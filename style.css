@@ -1,0 +1,56 @@
+/* ===== Variables ===== */
+:root{
+  --bleu:#0070d1;      /* bleu PlayStation */
+  --nuit:#10192e;      /* fond sombre */
+  --ciel:#eef4fb;      /* fond clair */
+  --orange:#ff6b35;    /* accent promo */
+  --bs-primary:#0070d1;
+}
+body{font-family:'Barlow',system-ui,sans-serif;color:#1c2538;background:#fff}
+h1,h2,h3,h4,.navbar-brand{font-family:'Rajdhani',sans-serif;font-weight:700}
+a{color:var(--bleu)}
+.btn-primary{--bs-btn-bg:var(--bleu);--bs-btn-border-color:var(--bleu);--bs-btn-hover-bg:#005bab;--bs-btn-hover-border-color:#005bab}
+
+/* ===== Navbar ===== */
+.navbar{background:var(--nuit)}
+.navbar-brand{font-size:1.6rem;letter-spacing:.5px;color:#fff!important}
+.navbar-brand span{color:#4da3ff}
+.nav-link{color:#c9d3e6!important}
+.nav-link:hover,.nav-link.active{color:#fff!important}
+#cart-count{font-size:.7rem}
+
+/* ===== Hero ===== */
+.hero{background:linear-gradient(120deg,var(--nuit) 55%,#0b3d78);color:#fff;padding:90px 0}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.05}
+.hero p{max-width:46ch;color:#c9d3e6;font-size:1.15rem}
+.hero-visual{font-size:9rem;text-align:center;filter:drop-shadow(0 10px 30px rgba(0,112,209,.6))}
+
+/* ===== Catégories ===== */
+.cat-tile{display:block;text-align:center;padding:26px 10px;background:var(--ciel);border-radius:14px;
+  color:var(--nuit);text-decoration:none;font-weight:600;border:2px solid transparent}
+.cat-tile:hover{border-color:var(--bleu);color:var(--bleu)}
+.cat-tile .icon{font-size:2.4rem;display:block}
+
+/* ===== Cartes produit ===== */
+.product-card{border:1px solid #e3e9f2;border-radius:14px;overflow:hidden;height:100%;transition:box-shadow .2s}
+.product-card:hover{box-shadow:0 8px 24px rgba(16,25,46,.12)}
+.product-img{height:170px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;background:var(--ciel)}
+.price{font-family:'Rajdhani',sans-serif;font-size:1.5rem;font-weight:700;color:var(--nuit)}
+.old-price{text-decoration:line-through;color:#8a94a8;margin-left:6px}
+.badge-promo{background:var(--orange)}
+
+/* ===== Divers ===== */
+.page-title{background:var(--ciel);padding:40px 0;margin-bottom:40px}
+.detail-img{font-size:10rem;background:var(--ciel);border-radius:18px;display:flex;align-items:center;justify-content:center;min-height:360px}
+footer{background:var(--nuit);color:#9aa7c2;padding:40px 0;margin-top:80px}
+footer a{color:#c9d3e6}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+
+/* ===== Ajouts pour le site en une seule page ===== */
+#app{min-height:60vh}
+
+/* ===== Images produits ===== */
+.product-img{background:#fff;padding:12px}
+.product-img img{max-width:100%;max-height:100%;object-fit:contain}
+.detail-img{background:#fff;border:1px solid #e3e9f2;padding:24px}
+.detail-img img{max-width:100%;max-height:420px;object-fit:contain}
