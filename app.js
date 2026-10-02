@@ -5,7 +5,8 @@ const CATEGORIES = {
   ps5: "PlayStation 5", ps4: "PlayStation 4",
   "manette-ps5": "Manettes PS5", "manette-ps4": "Manettes PS4",
   "jeu-ps5": "Jeux PS5", "jeu-ps4": "Jeux PS4",
-  vr: "Réalité Virtuelle"
+  vr: "Réalité Virtuelle",
+  casque: "Casques"
 };
 
 // Icône de secours si un produit n'a pas d'image
@@ -16,7 +17,8 @@ const ICONES = {
   "manette-ps4":"🕹️",
   "jeu-ps5":"💿",
   "jeu-ps4":"📀",
-  vr:"🥽"
+  vr:"🥽",
+  casque:"🎧"
 };
 
 // img = nom du fichier dans le dossier images/
@@ -29,7 +31,11 @@ const PRODUITS = [
   { id:6, nom:"Gran Turismo 7",              cat:"jeu-ps5",     prix:49,  ancien:69, img:"gran-turismo-7.webp",     desc:"Le simulateur de course de référence sur PlayStation." },
   { id:7, nom:"God of War Ragnarök",          cat:"jeu-ps4",     prix:39,  img:"god-of-war-ragnarok.webp",         desc:"Kratos et Atreus face à la fin du monde nordique." },
   { id:8, nom:"The Last of Us Part II",       cat:"jeu-ps4",     prix:29,  img:"last-of-us-2.webp",                desc:"Une histoire intense de survie et de vengeance." },
-  { id:9, nom:"PlayStation VR2",              cat:"vr",          prix:499, ancien:549, desc:"Casque de réalité virtuelle PlayStation avec affichage immersif et suivi des mouvements." }
+  { id:9, nom:"PlayStation VR2",              cat:"vr",          prix:499, ancien:549, desc:"Casque de réalité virtuelle PlayStation avec affichage immersif et suivi des mouvements." },
+  { id:10, nom:"Casque PULSE 3D Sans Fil",    cat:"casque",      prix:99,  ancien:109, img:"pulse-3d.webp",           desc:"Casque sans fil officiel PS5 avec audio 3D et micros intégrés." },
+  { id:11, nom:"Casque PULSE Elite",          cat:"casque",      prix:149, img:"pulse-elite.webp",                 desc:"Casque sans fil PS5 avec micro rétractable, audio planaire et grand confort." },
+  { id:12, nom:"HyperX Cloud II",             cat:"casque",      prix:99,  ancien:119, img:"hyperx-cloud-2.webp",     desc:"Casque gaming filaire compatible PS5 et PS4, son surround 7.1 et micro détachable." },
+  { id:13, nom:"Razer Kraken X",              cat:"casque",      prix:59,  img:"razer-kraken-x.webp",              desc:"Casque gaming léger et confortable, compatible PS5 et PS4." }
 ];
 
 // Affiche l'image du produit (ou l'icône si pas d'image)
